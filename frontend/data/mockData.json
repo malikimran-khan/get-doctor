@@ -1,0 +1,103 @@
+{
+  "doctors": [
+    {
+      "id": 1,
+      "name": "Dr. Rashid Amanat",
+      "specialization": "Cardiologist",
+      "hospital": "F.N.C Hospital",
+      "city": "Lahore",
+      "timings": "04:00 PM - 09:00 PM",
+      "rating": 4.9,
+      "reviews": 124,
+      "availability": "Available Today",
+      "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b1f8?auto=format&fit=crop&q=80&w=200&h=200",
+      "contact": "+92-300-1234567",
+      "email": "dr.rashid@example.com"
+    },
+    {
+      "id": 2,
+      "name": "Dr. Sarah Khan",
+      "specialization": "Neurologist",
+      "hospital": "City Medical Center",
+      "city": "Islamabad",
+      "timings": "10:00 AM - 02:00 PM",
+      "rating": 4.8,
+      "reviews": 89,
+      "availability": "Waitlist",
+      "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=200&h=200",
+      "contact": "+92-321-7654321",
+      "email": "dr.sarah@example.com"
+    },
+    {
+      "id": 3,
+      "name": "Dr. Ahmed Hassan",
+      "specialization": "Pediatrician",
+      "hospital": "Childrens Specialist Clinic",
+      "city": "Karachi",
+      "timings": "11:00 AM - 05:00 PM",
+      "rating": 4.7,
+      "reviews": 156,
+      "availability": "Available Today",
+      "image": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=200&h=200",
+      "contact": "+92-333-9876543",
+      "email": "dr.ahmed@example.com"
+    },
+    {
+      "id": 4,
+      "name": "Dr. Fatima Zahra",
+      "specialization": "Dermatologist",
+      "hospital": "Skin Care Institute",
+      "city": "Lahore",
+      "timings": "02:00 PM - 07:00 PM",
+      "rating": 4.9,
+      "reviews": 210,
+      "availability": "Available Tomorrow",
+      "image": "https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=200&h=200",
+      "contact": "+92-345-1122334",
+      "email": "dr.fatima@example.com"
+    }
+  ],
+  "hospitals": [
+    {
+      "id": 1,
+      "name": "F.N.C Hospital",
+      "location": "Gulberg III, Lahore",
+      "departments": ["Cardiology", "Neurology", "General Medicine", "Emergency"],
+      "emergency": "24/7 Available",
+      "contact": "042-111-222-333",
+      "image": "https://images.unsplash.com/photo-1586773860418-d3b97976c661?auto=format&fit=crop&q=80&w=400&h=250"
+    },
+    {
+      "id": 2,
+      "name": "City Medical Center",
+      "location": "Blue Area, Islamabad",
+      "departments": ["Pediatrics", "Dermatology", "Orthopedics"],
+      "emergency": "Day Shift Only",
+      "contact": "051-444-555-666",
+      "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=400&h=250"
+    }
+  ],
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Usman Ali",
+      "role": "Patient",
+      "text": "The AI search is incredible! I found the best cardiologist in Lahore within seconds. Highly recommended.",
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "name": "Maria Khan",
+      "role": "Healthcare Consultant",
+      "text": "This platform bridges the gap between patients and doctors perfectly. The UI is so modern and easy to use.",
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "name": "Sajid Mahmood",
+      "role": "Patient",
+      "text": "Found a neurologist for my mother very quickly. The AI response was accurate and helpful.",
+      "rating": 4
+    }
+  ]
+}
