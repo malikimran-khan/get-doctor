@@ -18,7 +18,7 @@ HEADERS = {
 }
 
 DEFAULT_SEED_URL = "https://www.ghurkitrust.org.pk/?utm_source=chatgpt.com"
-KNOWN_ENDPOINTS = ["/contactus", "/about-us", "/all-doctors"]
+KNOWN_ENDPOINTS = ["/contact-us", "/contactus", "/about-us", "/all-doctors"]
 
 
 class ScraperError(Exception):
@@ -135,6 +135,24 @@ def is_same_site(link: str, seed_root_name: str) -> bool:
     return seed_root_name in hostname.lower()
 
 
+def get_seed_url_variants(seed_url: str) -> List[str]:
+    parsed = urllib.parse.urlparse(seed_url)
+    hostname = parsed.hostname
+    if not hostname:
+        return [seed_url]
+
+    variants = [seed_url]
+    alternate_hostname = (
+        hostname.removeprefix("www.")
+        if hostname.startswith("www.")
+        else f"www.{hostname}"
+    )
+    alternate = parsed._replace(netloc=alternate_hostname).geturl()
+    if alternate not in variants:
+        variants.append(alternate)
+    return variants
+
+
 def extract_internal_links(soup: BeautifulSoup, base_url: str, seed_root_name: str) -> List[str]:
     links: Set[str] = set()
     for anchor in soup.find_all("a", href=True):
@@ -184,27 +202,37 @@ def merge_lists(*lists: Optional[List[str]]) -> Optional[List[str]]:
 def scrape_hospital(seed_url: str, max_pages: int = 12) -> HospitalData:
     parsed_seed = urllib.parse.urlparse(seed_url)
     seed_root_name = get_root_name(parsed_seed.hostname or "")
-    pages_to_visit: List[str] = [seed_url]
-    pages_to_visit.extend(urllib.parse.urljoin(seed_url, endpoint) for endpoint in KNOWN_ENDPOINTS)
+    seed_variants = get_seed_url_variants(seed_url)
+    pages_to_visit: List[str] = seed_variants.copy()
+    for root_url in seed_variants:
+        pages_to_visit.extend(urllib.parse.urljoin(root_url, endpoint) for endpoint in KNOWN_ENDPOINTS)
     visited: Set[str] = set()
     collected: List[PageData] = []
+    failed_pages: List[str] = []
 
-    while pages_to_visit and len(visited) < max_pages:
+    while pages_to_visit and len(collected) < max_pages:
         url = pages_to_visit.pop(0)
         if url in visited:
             continue
+        visited.add(url)
 
         try:
             page_data = scrape_page(url, seed_root_name)
         except Exception as exc:
-            raise ScraperError(f"ERROR fetching {url}: {exc}") from exc
+            failed_pages.append(f"{url}: {exc}")
+            continue
 
-        visited.add(url)
         collected.append(page_data)
 
         for link in page_data.links or []:
             if link not in visited and link not in pages_to_visit:
                 pages_to_visit.append(link)
+
+    if not collected:
+        details = "; ".join(failed_pages[:3]) or "no pages were available"
+        if len(failed_pages) > 3:
+            details = f"{details}; plus {len(failed_pages) - 3} more"
+        raise ScraperError(f"ERROR scraping {seed_url}: {details}")
 
     summary = HospitalData(
         seed_url=seed_url,
